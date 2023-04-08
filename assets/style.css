@@ -1,0 +1,103 @@
+#body{
+  background-color: #000000;
+}
+.button {
+  max-width: 200px;
+  margin-top: 20px;
+  display: inline-block;
+  padding: 7px 5px;
+  font-size: 15px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #000000;
+  border: none;
+  border-radius: 17px;
+  box-shadow: inset 2px 12px 8px 3px #767676;
+}
+
+.button:hover {
+  color: #000000;
+  background-color: #c5baba;
+}
+
+.button:active {
+  background-color: #c5baba;
+  box-shadow: inset 2px 12px 8px 3px #c5baba;
+  transform: translateY(4px);
+}
+
+
+/* .dropdown{
+  width: 33%;
+} */
+
+.container{
+  display: grid;
+  grid-template-areas: 
+  "dropdown1 dropdown2"
+  "dropdown3 dropdown3"
+  "button button"
+  "output-container output-container";
+}
+
+#dropdown1{
+  grid-area: dropdown1;
+  min-width: 25%;
+  max-width: 80%;
+  /* background-color: rgb(59, 59, 59); */
+  border-radius: 10px;
+  border: 5px solid rgb(168, 168, 168);
+  font-size: 16px;
+  font-weight: bold;
+  padding: 1px;
+  margin: 10px 10px;
+}
+
+
+#dropdown2{
+  grid-area: dropdown2;
+  min-width: 25%;
+  max-width: 80%;
+  /* background-color: rgb(59, 59, 59); */
+  border-radius: 10px;
+  border: 5px solid rgb(168, 168, 168);
+  font-size: 16px;
+  font-weight: bold;
+  padding: 1px;
+  margin: 10px 0px;
+}
+#dropdown3{
+  grid-area: dropdown3;
+  min-width: 20%;
+  width: fit-content;
+  border-radius: 10px;
+  border: 5px solid rgb(168, 168, 168);
+  font-size: 16px;
+  font-weight: bold;
+  padding: 1px;
+  margin: 10px 10px;
+}
+#button{
+  grid-area: button;
+}
+#output-container{
+  grid-area: output-container;
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(auto-fit,minmax(40%,1fr));
+}
+
+.Select-control {
+  background-color: #efefef;
+  display: table;
+  overflow: hidden;
+}
+
+@media only screen and (max-width:1000px) {
+  .container{
+    display: none;
+  }
+}
