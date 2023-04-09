@@ -96,8 +96,16 @@
   overflow: hidden;
 }
 
+.media-container{
+  display: none;
+}
 @media only screen and (max-width:1000px) {
   .container{
     display: none;
+  }
+  .media-container{
+    display: flex;
+    font-weight: bold;
+    justify-content: center;
   }
 }

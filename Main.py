@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # coding: utf-8
-
 import csv
 import pandas as pd
 import numpy as np
@@ -27,8 +26,7 @@ plt.rcParams['figure.dpi'] = 70
 
 
 
-
-data = pd.read_csv('/assets/train.csv')
+data = pd.read_csv('assets/train.csv')
 
 
 
@@ -193,10 +191,9 @@ if cdict['BasePrice']==1:
 
 # Changing Bill Date object to datetime format
 if cdict['BillDate']==1:
-    df.BillDate = pd.to_datetime(df.BillDate)
+    df.BillDate = pd.to_datetime(df.BillDate, format="%d/%m/%Y")
     df[df['BillDate'].isna()]
     df.dropna(subset=['BillDate'], inplace=True)
-
 
 
 
@@ -272,8 +269,9 @@ if cdict['BasePrice'] and cdict['BillDate']:
         x='df_'+str(start_years[temp])
         x=eval(x).BasePrice.sum()
         ll={'Year':y,'BasePrice':x}
-        ya_year=ya_year.append(ll,ignore_index=True)
+        ya_year = pd.concat([ya_year, pd.DataFrame(ll, index=[0])], ignore_index=True)
         temp=temp+1
+
 
 
 
@@ -575,7 +573,7 @@ if cdict['BasePrice'] and cdict['State'] and cdict['BillDate']:
             if temp.empty:
                 temp=eval(main_data).loc[eval(main_data)['State']==st]
             else:
-                temp=temp.append(eval(main_data).loc[eval(main_data)['State']==st],ignore_index=True)
+                temp = pd.concat([temp, eval(main_data).loc[eval(main_data)['State']==st]], ignore_index=True)
         if temp.empty==False:
             temp_fig='fig_'+str(fig_num)
             fig_num=fig_num+1;
@@ -829,7 +827,7 @@ if cdict['BasePrice'] and cdict['Segment'] and cdict['BillDate']:
             if temp.empty:
                 temp=eval(main_data).loc[eval(main_data)['Segment']==segment]
             else:
-                temp=temp.append(eval(main_data).loc[eval(main_data)['Segment']==segment],ignore_index=True)
+                temp=pd.concat([temp, eval(main_data).loc[eval(main_data)['Segment']==segment]], ignore_index=True)
         if temp.empty==False:
             temp_fig='fig_'+str(fig_num)
             fig_num=fig_num+1;
@@ -1062,7 +1060,7 @@ def col_analysis(val,col_val,x,rotate,main_fig_num):
             if temp.empty:
                 temp=eval(main_data).loc[eval(main_data)[val]==product]
             else:
-                temp=temp.append(eval(main_data).loc[eval(main_data)[val]==product],ignore_index=True)
+                temp=pd.concat([temp, eval(main_data).loc[eval(main_data)[val]==product]], ignore_index=True)
         if temp.empty==False:
             temp_fig='fig_'+str(fig_num)
             exec(f"global {temp_fig}; {temp_fig}=go.Figure()")
@@ -2000,9 +1998,9 @@ if cdict['CustomerName'] and cdict['BillDate']:
             if eval(temp).empty:
                 new_months = list(range(0,num))
                 exec(f"{temp}=pd.DataFrame(columns=new_months)")
-                exec(f"{temp} = {temp}.append(pd.Series(row, index={temp}.columns), ignore_index=True)")
+                exec(f"{temp}.loc[len({temp})] = row")
             else:
-                exec(f"{temp} = {temp}.append(pd.Series(row, index={temp}.columns), ignore_index=True)")
+                exec(f"{temp}.loc[len({temp})] = row")
         eval(temp).insert(0, 'Year', short_years, True)
         exec(f"{temp} = {temp}.replace(-1,np.nan)")
         temp_fig='fig_'+str(fig_num)
@@ -2032,8 +2030,8 @@ if cdict['CustomerName'] and cdict['BillDate']:
         temp3='ret_avg_'+str(m)
         num_rows=temp2.shape[0]
         row_sum = temp2.iloc[:, 1:].sum(axis=0)/num_rows
-        row_sum = pd.Series(['Average'], index=['Year']).append(row_sum)
-        temp2 = temp2.append(row_sum, ignore_index=True)
+        row_sum = pd.concat([pd.Series(['Average'], index=['Year']), row_sum])
+        temp2 = pd.concat([temp2, pd.DataFrame([row_sum.values], columns=row_sum.index)], ignore_index=True)
         exec(f"{temp3}= temp2.copy()")
         exec(f"{temp3} = {temp3}.iloc[[-1]]")
         if ret_avg_all.empty:
@@ -2218,6 +2216,7 @@ if cdict['CustomerName'] and cdict['BillDate']:
                 new_row = pd.DataFrame({"CohortDate": temp_value, **{col: 0 for col in eval(temp_name).columns[1:]}}, index=[0])
                 exec(f"{temp_name}=pd.concat([{temp_name},new_row], ignore_index=True)")
 
+    exec(f"{temp_name}['CohortDate'] = pd.to_datetime({temp_name}['CohortDate'])")
     exec(f"{temp_name} = {temp_name}.sort_values('CohortDate')")
     exec(f"{temp_name} = {temp_name}.reset_index(drop=True)")
 
@@ -2322,9 +2321,9 @@ if cdict['CustomerName'] and cdict['BillDate']:
             if eval(temp).empty:
                 new_months = list(range(1,num+1))
                 exec(f"{temp}=pd.DataFrame(columns=new_months)")
-                exec(f"{temp} = {temp}.append(pd.Series(row, index={temp}.columns), ignore_index=True)")
+                exec(f"{temp}.loc[len({temp})] = row")
             else:
-                exec(f"{temp} = {temp}.append(pd.Series(row, index={temp}.columns), ignore_index=True)")
+                exec(f"{temp}.loc[len({temp})] = row")
         eval(temp).insert(0, 'Year', short_years[:-data_incomplete_year_count], True)
         exec(f"{temp} = {temp}.replace(-1,np.nan)")
         temp_fig='fig_'+str(fig_num)
@@ -2494,29 +2493,38 @@ if cdict['ProductDetail'] and cdict['OrderID'] and cdict['ProductDetail']:
 
 
 
+# Dashboard Code
+
 def is_array(obj):
     return isinstance(obj, list)
 
+# load the dictionary from the saved file
+with open('assets/Figure.pickle', 'rb') as f:
+    main_data_dict = pickle.load(f)
 
-external_stylesheets = ['/assets/style.css']
+# print the dictionary to verify it was loaded correctly
+# print(main_data_dict)
+
+external_stylesheets = ['assets/style.css']
 app = Dash(__name__, external_stylesheets=external_stylesheets)
 server=app.server
 
 # Create the layout
 app.layout = html.Div([
-    dcc.Dropdown(
-        id='dropdown1',
-        options=[
-            {'label': k, 'value': k} for k in main_data_dict.keys()
-        ],
-        value=list(main_data_dict.keys())[0],
-        className='dropdown1',
-    ),
-    dcc.Dropdown(id='dropdown2',className='dropdown2'),
-    dcc.Dropdown(id='dropdown3',multi=True,className='dropdown3'),
-    html.Button('DataFrames', id='toggle-button', n_clicks=0, className='button'),
-    html.Div(id='output-container', className='output-container')
-], className='container')
+    html.Div([
+        dcc.Dropdown(
+            id='dropdown1',
+            options=[{'label': k, 'value': k} for k in main_data_dict.keys()],
+            value=list(main_data_dict.keys())[0],
+            className='dropdown1'
+        ),
+        dcc.Dropdown(id='dropdown2', className='dropdown2'),
+        dcc.Dropdown(id='dropdown3', multi=True, className='dropdown3'),
+        html.Button('DataFrames', id='toggle-button', n_clicks=0, className='button'),
+        html.Div(id='output-container', className='output-container')
+    ], className='container'),
+    html.Div(className='media-container', children=[html.P('Please Use Laptop')]),
+], className='outer-container')
 
 # Create the callback functions
 @app.callback(
@@ -2570,7 +2578,10 @@ def display_data(selected_key, selected_subkey, keys, n_clicks):
     if isinstance(keys, str):
         keys = [keys]
 
-
+    # print(f"Key:{selected_key}, Subkey1:{selected_subkey}")    
+    # for key in keys:
+    #     print(f"Selected Multi Key is :{key}")
+    
     temp = main_data_dict[selected_key][selected_subkey]
     figure_dict=[temp[k] for k in keys]
     components = []
@@ -2604,8 +2615,6 @@ def display_data(selected_key, selected_subkey, keys, n_clicks):
 
 if __name__ == '__main__':
     app.run_server(debug=True)
-
-
 
 
 

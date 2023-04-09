@@ -5,7 +5,7 @@
 <h1 align="center"> Data Analyzer </h1>
 
 This repository contain a project which can automatically generate a dashboard for sales analysis from the provided data. You just need to specify some details required at the start for processing data. Then the code will automatically preprocess and create interactive plotly plots then it will generate a Dashboard using Dash Framework.
-I have created a dashboard on Sample Sales Data from Kaggle provided in assets folder.
+I have created a dashboard on Sample Sales Data from Kaggle provided in assets folder. The Dashboard formed have some empty areas and low value due to incomplete data.
 Dashboard => 
 
 ## How to test provided sample data ?

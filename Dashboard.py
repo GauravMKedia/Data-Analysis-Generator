@@ -24,7 +24,7 @@ warnings.filterwarnings("ignore")
 plt.rcParams["figure.figsize"] = (15,6)
 plt.rcParams['figure.dpi'] = 70
 
-# In[2]:
+
 def is_array(obj):
     return isinstance(obj, list)
 
@@ -41,19 +41,20 @@ server=app.server
 
 # Create the layout
 app.layout = html.Div([
-    dcc.Dropdown(
-        id='dropdown1',
-        options=[
-            {'label': k, 'value': k} for k in main_data_dict.keys()
-        ],
-        value=list(main_data_dict.keys())[0],
-        className='dropdown1',
-    ),
-    dcc.Dropdown(id='dropdown2',className='dropdown2'),
-    dcc.Dropdown(id='dropdown3',multi=True,className='dropdown3'),
-    html.Button('DataFrames', id='toggle-button', n_clicks=0, className='button'),
-    html.Div(id='output-container', className='output-container')
-], className='container')
+    html.Div([
+        dcc.Dropdown(
+            id='dropdown1',
+            options=[{'label': k, 'value': k} for k in main_data_dict.keys()],
+            value=list(main_data_dict.keys())[0],
+            className='dropdown1'
+        ),
+        dcc.Dropdown(id='dropdown2', className='dropdown2'),
+        dcc.Dropdown(id='dropdown3', multi=True, className='dropdown3'),
+        html.Button('DataFrames', id='toggle-button', n_clicks=0, className='button'),
+        html.Div(id='output-container', className='output-container')
+    ], className='container'),
+    html.Div(className='media-container', children=[html.P('Please Use Laptop')]),
+], className='outer-container')
 
 # Create the callback functions
 @app.callback(
