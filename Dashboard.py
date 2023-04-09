@@ -37,7 +37,7 @@ with open('assets/Figure.pickle', 'rb') as f:
 
 external_stylesheets = ['assets/style.css']
 app = Dash(__name__, external_stylesheets=external_stylesheets)
-
+server=app.server
 
 # Create the layout
 app.layout = html.Div([

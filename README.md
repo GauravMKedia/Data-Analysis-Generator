@@ -1,6 +1,6 @@
 ### Dashboard Preview:
 <p align="center">
-  <img src="https://i.imgur.com/kNMoNQI.gif" alt="animated" style="border: 5px solid #555">
+  <img src="https://i.imgur.com/kNMoNQI.gif" alt="animated" style="border: 5px solid black">
 </p>
 <h1 align="center"> Data Analyzer </h1>
 
