@@ -6,7 +6,8 @@
 
 This repository contain a project which can automatically generate a dashboard for sales analysis from the provided data. You just need to specify some details required at the start for processing data. Then the code will automatically preprocess and create interactive plotly plots then it will generate a Dashboard using Dash Framework.
 I have created a dashboard on Sample Sales Data from Kaggle provided in assets folder. The Dashboard formed have some empty areas and low value due to incomplete data.
-Dashboard => 
+
+Dashboard => https://automatic-data-analysis-generator.onrender.com/
 
 ## How to test provided sample data ?
 * The data and CSS for Dashboard is provided in assets folder. Then to run there are two ways to test sample data:
@@ -24,3 +25,8 @@ Dashboard =>
     1. Jupyter Notebook
         * You can open jupyter notebook (Main.ipynb) file and can change the details as mentioned in ipynb file step by step.
         * After this you can run the Dashboard.py file in terminal, this will generate a Dashboard using data of our pickle file.
+
+## Hosting Dashboard ?
+1. You need to make a requirenment.txt file containing all the package which you are using along with gunicorn.
+2. Upload all your code on Github, as github pages only support static sites we can host the dashboard on https://render.com/ for free.
+3. For Deploying app on render.com you can check this out => https://www.youtube.com/watch?v=H16dZMYmvqo
