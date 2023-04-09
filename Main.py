@@ -2498,13 +2498,6 @@ if cdict['ProductDetail'] and cdict['OrderID'] and cdict['ProductDetail']:
 def is_array(obj):
     return isinstance(obj, list)
 
-# load the dictionary from the saved file
-with open('assets/Figure.pickle', 'rb') as f:
-    main_data_dict = pickle.load(f)
-
-# print the dictionary to verify it was loaded correctly
-# print(main_data_dict)
-
 external_stylesheets = ['assets/style.css']
 app = Dash(__name__, external_stylesheets=external_stylesheets)
 server=app.server
