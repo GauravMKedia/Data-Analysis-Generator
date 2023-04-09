@@ -1,6 +1,7 @@
 ### Dashboard Preview:
-![](https://i.imgur.com/kNMoNQI.gif)
-
+<p align="center">
+  <img src="https://i.imgur.com/kNMoNQI.gif" alt="animated" style="border: 3px solid #555">
+</p>
 <h1 align="center"> Data Analyzer </h1>
 
 This repository contain a project which can automatically generate a dashboard for sales analysis from the provided data. You just need to specify some details required at the start for processing data. Then the code will automatically preprocess and create interactive plotly plots then it will generate a Dashboard using Dash Framework.
