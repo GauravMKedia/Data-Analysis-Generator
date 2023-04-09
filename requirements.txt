@@ -1,9 +1,9 @@
 dash==2.9.2
 jupyter_dash==0.4.2
-matplotlib==3.7.1
-numpy==1.23.5
-pandas==2.0.0
-plotly==5.14.1
-scikit_learn==1.2.2
-seaborn==0.12.2
+matplotlib
+numpy
+panda
+plotly
+scikit_learn
+seaborn
 gunicorn
